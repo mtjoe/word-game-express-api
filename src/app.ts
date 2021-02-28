@@ -1,26 +1,28 @@
-import createError = require("http-errors");
 import express = require("express");
-import path = require("path");
 import cookieParser = require("cookie-parser");
+import ApolloServer = require("apollo-server-express");
 import logger = require("morgan");
+import compression = require("compression");
+import cors = require("cors");
 
-const indexRouter = require("./routes/index");
-
-const app = express();
 const port = 8080;
+const app = express();
+const typeDefs = require("./graphql/schema");
+const resolvers = require("./graphql/resolvers");
 
+app.use("*", cors());
+app.use(compression());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/", indexRouter);
-
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  next(createError(404));
+const server = new ApolloServer.ApolloServer({
+  typeDefs,
+  resolvers,
 });
+
+server.applyMiddleware({ app, path: "/graphql" });
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
