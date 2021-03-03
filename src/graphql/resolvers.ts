@@ -6,7 +6,7 @@ const games = [
     combinations: [
       { location: { x: 0, y: 0 }, word: "bed", isAcross: true },
       { location: { x: 0, y: 0 }, word: "bad", isAcross: false },
-      { location: { x: 2, y: 0 }, word: "dab", isAcross: false },
+      { location: { x: 2, y: 0 }, word: "cab", isAcross: false },
       { location: { x: 2, y: 1 }, word: "ace", isAcross: true },
     ],
   },
